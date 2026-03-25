@@ -1,76 +1,101 @@
-# Python Practice
+# Python-to-ML
 
-Python 학습 과정에서 작성한 코드와 TIL(Today I Learned)을 기록하는 저장소입니다.
-
-AI Human 국비 교육 과정을 수강하며  
-Python 기초, Git, 데이터 분석 관련 내용을 공부하고 있습니다.
+Python 기초부터 머신러닝까지 학습 과정을 기록하는 저장소입니다.
+AI Human 교육 과정을 기반으로, 매일 학습한 내용과 복습 코드를 정리하고 있습니다.
 
 ---
 
-## Study Goal
+## 📌 About
 
-- Python 기초 문법 숙달
-- Git / GitHub 활용 능력 향상
-- 데이터 분석 및 AI 학습 준비
-- 코딩 테스트 대비
+이 저장소는 단순 코드 저장이 아니라
+**학습 흐름 (Python → ML)** 을 기록하는 것을 목표로 합니다.
 
----
-
-## Learning Stack
-
-- Python
-- Git / GitHub
-- NumPy
-- Pandas
-- Data Analysis
-- Algorithm (예정)
+* 직접 작성한 코드 중심
+* 복습 기반 학습 기록
+* 개념 + 실습 함께 정리
 
 ---
 
-## TIL (Today I Learned)
+## 🛠 Tech Stack
 
-| Day | Content |
-|-----|--------|
-| Day2 | Python 기본 문법 |
-| Day3 | Python 클래스 / 상속 |
-| Day4 | Python 게임 구현 |
-| Day6 | Python 문제 풀이 |
-| Day7 | Git 기본 명령어 |
-| Day8 | Numpy 기초|
-| Day9 | 선형대수, 통계, 확률 |
-| Day10 | 데이터 전처리 & 시각화 기초 |
-| Day11 | 머신러닝 입문 (LinearRegression, 모델 학습/예측) |
-| Day12 | 상권 및 매출 데이터 분석 (pandas, groupby, 데이터 구조 이해) |
+* Python
+* NumPy
+* Pandas
+* Scikit-learn
+* Git / GitHub
+
 ---
 
-## Repository Structure
+## 📚 Learning Log
 
+| Day   | Topic        |
+| ----- | ------------ |
+| Day02 | Python 기본 문법 |
+| Day03 | 클래스 / 상속     |
+| Day04 | 미니 게임 구현     |
+| Day05 | 문제 풀이        |
+| Day06 | 파일 처리        |
+| Day07 | Git / GitHub |
+| Day08 | NumPy        |
+| Day09 | 선형대수 / 통계    |
+| Day10 | 전처리 / 시각화    |
+| Day11 | 머신러닝 입문      |
+| Day12 | 데이터 분석       |
+| Day13 | 클러스터링 / PCA  |
+
+---
+
+## 🔥 Recent
+
+**Day13**
+
+* KMeans 클러스터링 실습
+* Elbow Method로 k값 판단
+* PCA(차원축소) 개념 이해
+* PCA + KMeans 연결 실습
+
+---
+
+## 📂 Structure
+
+```bash
+Python-to-ML/
+├── day02/
+├── day03/
+├── day04/
+├── day05/
+├── day06/
+├── day07/
+├── day08_numpy/
+├── day09_linear_algebra_statistics_probability/
+├── day10_practice/
+├── day11_ml/
+├── day12/
+├── day13_ml/
+└── README.md
 ```
-Python-practice
-├ day02
-├ day03
-├ day04
-├ day05
-├ day06
-├ day07
-├ day08 (Numpy)
-├ day09 (Math)
-├ day10 (Preprocessing & Visualization)
-├ day11 (Machine Learning)
-├ day12 (Data Analysis)
-└ README.md
-```
 
 ---
 
-## Study Rule
+## 📖 Study Rule
 
-- 매일 공부한 내용을 기록
-- 복습 후 GitHub에 업로드
-- 코드 + 개념 정리
+* 매일 학습 내용 기록
+* 직접 코드 작성
+* 복습 후 정리
+* GitHub 업로드
 
 ---
 
-## GitHub
+## 📝 Note
 
-https://github.com/mosejong
+프로젝트 진행이나 복습 과정으로 인해
+업로드 간격이 일정하지 않을 수 있습니다.
+
+단순 진도를 나가는 것보다,
+**이해하고 다시 정리하는 학습**을 목표로 하고 있습니다.
+
+---
+
+## 👨‍💻 Author
+
+* GitHub: https://github.com/mosejong

@@ -15,6 +15,8 @@ AI Human 교육 과정을 기반으로, 매일 학습한 내용과 복습 코드
 - 개념 + 실습 함께 정리
 - 시행착오와 디버깅 과정까지 기록
 
+이 저장소는 학습 과정 속에서 직접 구현한 코드와 복습 기록을 함께 정리하는 공간입니다.
+
 ---
 
 ## 🛠 Tech Stack
@@ -26,6 +28,14 @@ AI Human 교육 과정을 기반으로, 매일 학습한 내용과 복습 코드
 - TensorFlow / Keras
 - PyTorch
 - Git / GitHub
+
+---
+
+## 🚀 Projects
+
+- **Day20 API Project** : 공공데이터 API 호출, 페이지네이션 처리, 지도 시각화 실습
+- **Day21 Chatbot Project** : 텍스트 전처리 기반 챗봇 구현
+- **공공데이터 분석 프로젝트** : 지역 데이터 기반 분석 및 활용 아이디어 확장
 
 ---
 
@@ -82,11 +92,12 @@ Python-to-AI/
 ├── day21_chatbot/
 └── README.md
 ```
+
 ---
 
 ## 🔥 Recent Update
 
-### day21_chatbot
+### Day21 Chatbot Project
 
 자연어처리의 기본 개념과 텍스트 전처리 과정을 학습한 뒤, 이를 바탕으로 챗봇 프로젝트를 구성했습니다.  
 문장 데이터를 다루기 위해 소문자 변환, 노이즈 제거, 토큰화 같은 전처리 과정을 정리했고,  
@@ -115,4 +126,4 @@ Python-to-AI/
 
 ## 👨‍💻 Author
 
-* GitHub: https://github.com/mosejong
+* GitHub: [mosejong](https://github.com/mosejong)

@@ -63,6 +63,7 @@ AI Human 교육 과정을 기반으로, 매일 학습한 내용과 복습 코드
 | Day19 | 순차 데이터와 RNN 기초 / 온도 예측 앙상블 실험 |
 | Day20 | OpenAPI 기초, 공공데이터 API 호출, 페이지네이션, 지도 시각화(folium) |
 | Day21 | NLP 기초 / 텍스트 전처리 / 챗봇 프로젝트 |
+| Day22 | NLP 심화 / Naive Bayes 감정 분석 / 문장 및 문서 유사도(Cosine Similarity) |
 
 ---
 
@@ -90,6 +91,7 @@ Python-to-AI/
 ├── day19_rnn/
 ├── day20_api/
 ├── day21_chatbot/
+├── day22_nlp_advance/
 └── README.md
 ```
 
@@ -97,11 +99,12 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day21 Chatbot Project
+### Day 22: NLP Advance & Similarity Analysis
 
-자연어처리의 기본 개념과 텍스트 전처리 과정을 학습한 뒤, 이를 바탕으로 챗봇 프로젝트를 구성했습니다.  
-문장 데이터를 다루기 위해 소문자 변환, 노이즈 제거, 토큰화 같은 전처리 과정을 정리했고,  
-챗봇 로직과 전처리 파일을 분리하여 프로젝트 구조를 더 깔끔하게 정리했습니다.
+어제의 전처리에 이어, 본격적으로 텍스트 데이터를 수치화하고 분석하는 기법을 학습했습니다.
+- **Naive Bayes**: 확률 기반 감정 분류 모델을 직접 구현하고, 스무딩(Smoothing)과 로그 연산을 통해 예측 안정성을 확보했습니다.
+- **Similarity Analysis**: 문장을 벡터화한 후 코사인 유사도(Cosine Similarity)를 통해 문맥적 거리를 계산하는 실습을 진행했습니다.
+- **Trouble Shooting**: TensorFlow 가중치 로드 시 발생하는 NumPy 버전 충돌 이슈를 해결하며 개발 환경 호환성의 중요성을 체감했습니다.
 
 ---
 

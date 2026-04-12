@@ -29,6 +29,8 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 - ChromaDB
 - FastAPI
 - Streamlit
+- Flask
+- SQLite3
 - Git / GitHub
 
 ---
@@ -38,7 +40,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 - Python 기반 문제 해결력 강화
 - 머신러닝 / 딥러닝 핵심 개념 정리
 - NLP와 챗봇 구현 실습
-- 벡터 검색, FastAPI, 풀스택 프로젝트 경험 확장
+- 벡터 검색, FastAPI, Flask, 풀스택 프로젝트 경험 확장
 
 ---
 
@@ -59,6 +61,10 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 - **[Day24 Furniture Awards AI](./day24_Chroma_Fullstack/)**
   - DINOv2 + ChromaDB 기반 가구 이미지 유사도 검색 프로젝트
   - Streamlit 프로토타입과 FastAPI + HTML/JS 풀스택 구조를 함께 구현
+
+- **[Day25 FridgeCook Project](./day25_FridgeCook/)**
+  - 냉장고 재료를 기반으로 레시피를 추천하는 Flask 웹 프로젝트
+  - SQLite 레시피 데이터, 정규표현식 전처리, 단계별 조리 구조를 함께 구현
 
 ---
 
@@ -99,6 +105,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 | Day22 | NLP 심화 / Naive Bayes / Cosine Similarity |
 | Day23 | Seq2Seq + Attention 번역 모델 구현 / 성능 최적화 |
 | Day24 | DINOv2 / ChromaDB / Streamlit → FastAPI 풀스택 프로젝트 |
+| Day25 | Flask / SQLite / 레시피 추천 웹 프로젝트 |
 
 ---
 
@@ -129,6 +136,7 @@ Python-to-AI/
 ├── day22_nlp_advance/
 ├── day23_attention_nmt/
 ├── day24_Chroma_Fullstack/
+├── day25_FridgeCook/
 ├── visual_notes/
 │   ├── transformer_interactive_flow.html
 │   └── cnn_rnn_lstm_gru_interactive_flow.html
@@ -139,20 +147,22 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day24: DINOv2 + ChromaDB 기반 이미지 유사도 검색 서비스 구현
+### Day25: 냉장고 재료 기반 레시피 추천 웹 서비스 구현
 
-가구 이미지를 업로드하면 DINOv2로 임베딩을 추출하고,  
-ChromaDB에서 유사한 이미지를 검색한 뒤 시상식 형태의 UI로 결과를 보여주는 프로젝트를 구현했습니다.
+사용자가 냉장고 속 재료를 입력하거나 선택하면,
+SQLite에 저장된 레시피 데이터와 비교해, 일치도가 높은 메뉴를 추천하는 Flask 웹 프로젝트를 구현했습니다.
 
 #### 핵심 정리
-- DINOv2 기반 이미지 임베딩 추출
-- ChromaDB를 활용한 벡터 유사도 검색
-- Streamlit 프로토타입 구현 후 FastAPI + HTML/JS 구조로 확장
-- LocalStorage 기반 최근 검색 기록 저장 기능 구현
+- Flask 기반 입력/추천 웹 서비스 구현
+- SQLite 레시피 데이터 연동
+- 정규표현식을 활용한 재료 텍스트 전처리
+- 재료 일치 비율 기반 추천 로직 구현
+- 최대 20단계 조리법을 처리할 수 있는 확장형 구조 설계
 
 #### Troubleshooting
-- `127.0.0.1` 환경의 한계로 모바일 접속이 불가능했지만, `0.0.0.0` 호스트 설정으로 해결
-- 기능 증가에 따라 복잡해진 UI/상태 제어 로직을 정리하며 가독성 개선
+- 공공데이터 API의 재료 문자열 형식이 일정하지 않아 전처리 로직 보완이 필요했음
+- 부분 문자열 매칭 방식이라 유사 재료 간 오매칭 가능성을 확인함
+- 추천 점수 계산 방식의 한계를 느끼고, 추후 가중치 기반 개선 방향을 정리함
 
 ---
 

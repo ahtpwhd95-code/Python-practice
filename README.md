@@ -1,14 +1,14 @@
 # Python-to-AI
 
-Python 기초부터 머신러닝, 딥러닝, NLP, 벡터 검색, API/풀스택 프로젝트까지 학습하고 기록한 저장소입니다.  
-AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 실습 프로젝트, 시각화 자료를 함께 정리하고 있습니다.
+Python 기초부터 머신러닝, 딥러닝, NLP, 벡터 검색, API/풀스택 프로젝트까지의 학습 과정을 기록한 저장소입니다.  
+AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용, 실습 프로젝트, 시각화 자료를 함께 정리하고 있습니다.
 
 ---
 
 ## 📌 About
 
-이 저장소는 단순한 코드 모음이 아니라  
-**Python → ML → DL → NLP → Vector Search → AI 프로젝트** 로 이어지는 학습 흐름을 기록하는 공간입니다.
+이 저장소는 단순한 코드 모음이 아니라,  
+**Python → ML → DL → NLP → Vector Search → AI 프로젝트**로 이어지는 학습 흐름을 정리한 공간입니다.
 
 - 직접 작성한 코드 중심
 - 복습 기반 학습 기록
@@ -39,7 +39,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 
 - Python 기반 문제 해결력 강화
 - 머신러닝 / 딥러닝 핵심 개념 정리
-- NLP와 챗봇 구현 실습
+- NLP와 Transformer 구조 이해 및 실습
 - 벡터 검색, FastAPI, Flask, 풀스택 프로젝트 경험 확장
 
 ---
@@ -94,7 +94,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 | Day11 | 머신러닝 입문 |
 | Day12 | 데이터 분석 기초 |
 | Day13 | 클러스터링 / PCA |
-| Day14 | Decision Tree / Ensemble |
+| Day14 | 의사결정나무 / 앙상블 |
 | Day15 | 딥러닝 기초 / 퍼셉트론 |
 | Day16 | TensorFlow / MLP 기초 |
 | Day17 | CNN 기초 및 이미지 분류 개념 |
@@ -106,6 +106,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드, 복습 내용, 
 | Day23 | Seq2Seq + Attention 번역 모델 구현 / 성능 최적화 |
 | Day24 | DINOv2 / ChromaDB / Streamlit → FastAPI 풀스택 프로젝트 |
 | Day25 | Flask / SQLite / 레시피 추천 웹 프로젝트 |
+| Day26 | Transformer 아키텍처 / 사전학습 / 미세조정 / 듀얼 인코더 실습 |
 
 ---
 
@@ -137,6 +138,7 @@ Python-to-AI/
 ├── day23_attention_nmt/
 ├── day24_Chroma_Fullstack/
 ├── day25_FridgeCook/
+├── day26_transformer/
 ├── visual_notes/
 │   ├── transformer_interactive_flow.html
 │   └── cnn_rnn_lstm_gru_interactive_flow.html
@@ -147,26 +149,27 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day25: 냉장고 재료 기반 레시피 추천 웹 서비스 구현
+### Day26: Transformer 아키텍처 학습 및 듀얼 인코더 실습
 
-사용자가 냉장고 속 재료를 입력하거나 선택하면,
-SQLite에 저장된 레시피 데이터와 비교해, 일치도가 높은 메뉴를 추천하는 Flask 웹 프로젝트를 구현했습니다.
+Transformer의 전체 구조와 핵심 구성 요소를 학습하고,  
+사전학습(Pre-training)과 미세조정(Fine-tuning) 개념을 함께 정리했습니다.  
+또한 **Dual Encoder 실습**을 통해 입력을 각각 임베딩한 뒤 유사도를 비교하는 구조도 확인했습니다.
 
 #### 핵심 정리
-- Flask 기반 입력/추천 웹 서비스 구현
-- SQLite 레시피 데이터 연동
-- 정규표현식을 활용한 재료 텍스트 전처리
-- 재료 일치 비율 기반 추천 로직 구현
-- 최대 20단계 조리법을 처리할 수 있는 확장형 구조 설계
+- Transformer의 핵심 구성 요소(Embedding, Positional Encoding, Multi-Head Attention, FFN, Add & Norm) 학습
+- Masked Multi-Head Attention과 Cross Attention 역할 정리
+- 사전학습 방식 비교: MLM, NSP, Causal LM
+- Full / Freeze / Adapter / Instruction / Reasoning Tuning 등 미세조정 전략 정리
+- Dual Encoder 실습을 통해 임베딩 기반 비교 구조 확인
 
 #### Troubleshooting
-- 공공데이터 API의 재료 문자열 형식이 일정하지 않아 전처리 로직 보완이 필요했음
-- 부분 문자열 매칭 방식이라 유사 재료 간 오매칭 가능성을 확인함
-- 추천 점수 계산 방식의 한계를 느끼고, 추후 가중치 기반 개선 방향을 정리함
+- Masked Multi-Head Attention과 Cross Attention의 차이를 더 명확히 구분하기 위해 추가 복습이 필요했음
+- 사전학습 모델별 특징(BERT 계열 vs GPT 계열)을 비교 정리할 필요가 있었음
+- Dual Encoder의 입력 → 임베딩 → 유사도 계산 흐름을 코드 기준으로 다시 정리할 필요가 있었음
 
 ---
 
-## 📖 Study Rule
+## 📖 Study Rules
 
 - 매일 학습 내용 기록
 - 직접 코드 작성
@@ -177,7 +180,7 @@ SQLite에 저장된 레시피 데이터와 비교해, 일치도가 높은 메뉴
 
 ## 📝 Note
 
-프로젝트 진행과 복습 일정에 따라  
+프로젝트 진행 상황과 복습 일정에 따라  
 업로드 간격이 일정하지 않을 수 있습니다.
 
 단순히 진도를 나가는 것보다,  

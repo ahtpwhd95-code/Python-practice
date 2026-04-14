@@ -107,6 +107,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day24 | DINOv2 / ChromaDB / Streamlit → FastAPI 풀스택 프로젝트 |
 | Day25 | Flask / SQLite / 레시피 추천 웹 프로젝트 |
 | Day26 | Transformer 아키텍처 / 사전학습 / 미세조정 / 듀얼 인코더 실습 |
+| Day27 | Linux / Ubuntu / Vim / WSL2 환경 이해 / KoGPT-2 챗봇 페르소나 매핑 |
 
 ---
 
@@ -139,6 +140,7 @@ Python-to-AI/
 ├── day24_Chroma_Fullstack/
 ├── day25_FridgeCook/
 ├── day26_transformer/
+├── day27_linux/
 ├── visual_notes/
 │   ├── transformer_interactive_flow.html
 │   └── cnn_rnn_lstm_gru_interactive_flow.html
@@ -149,23 +151,24 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day26: Transformer 아키텍처 학습 및 듀얼 인코더 실습
+### Day27: Linux / Ubuntu 기초 실습과 KoGPT-2 챗봇 페르소나 매핑
 
-Transformer의 전체 구조와 핵심 구성 요소를 학습하고,  
-사전학습(Pre-training)과 미세조정(Fine-tuning) 개념을 함께 정리했습니다.  
-또한 **Dual Encoder 실습**을 통해 입력을 각각 임베딩한 뒤 유사도를 비교하는 구조도 확인했습니다.
+리눅스의 기본 구조와 Ubuntu 환경에서 자주 사용하는 명령어를 학습했습니다.  
+또한 Vim, Nano 같은 텍스트 에디터 사용법과 프로세스 제어(`Ctrl + C`, `Ctrl + Z`, `fg`)를 실습했습니다.  
+마지막으로 KoGPT-2 챗봇에 키워드 매핑을 적용해 '헬피' 페르소나를 반영하는 로직도 구현했습니다.
 
 #### 핵심 정리
-- Transformer의 핵심 구성 요소(Embedding, Positional Encoding, Multi-Head Attention, FFN, Add & Norm) 학습
-- Masked Multi-Head Attention과 Cross Attention 역할 정리
-- 사전학습 방식 비교: MLM, NSP, Causal LM
-- Full / Freeze / Adapter / Instruction / Reasoning Tuning 등 미세조정 전략 정리
-- Dual Encoder 실습을 통해 임베딩 기반 비교 구조 확인
+- Linux의 커널 / 쉘 구조 이해
+- Ubuntu 환경과 `apt` 기반 패키지 관리 방식 학습
+- `ls`, `cd`, `chmod`, `sudo` 등 기본 명령어 실습
+- `Ctrl + C`, `Ctrl + Z`, `fg`를 통한 프로세스 제어 학습
+- Vim / Nano 사용법 익히기
+- KoGPT-2 챗봇 페르소나 매핑 로직 구현
 
 #### Troubleshooting
-- Masked Multi-Head Attention과 Cross Attention의 차이를 더 명확히 구분하기 위해 추가 복습이 필요했음
-- 사전학습 모델별 특징(BERT 계열 vs GPT 계열)을 비교 정리할 필요가 있었음
-- Dual Encoder의 입력 → 임베딩 → 유사도 계산 흐름을 코드 기준으로 다시 정리할 필요가 있었음
+- 윈도우와 WSL2 리눅스 환경이 서로 분리된다는 점에서 혼동이 있었음
+- 아나콘다 설치 시 용량과 시간 부담이 커서 더 가벼운 대안 검토가 필요했음
+- 챗봇 응답 매핑을 더 자연스럽게 만들기 위해 키워드/응답 데이터 보강이 필요했음
 
 ---
 

@@ -8,7 +8,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 ## 📌 About
 
 이 저장소는 단순한 코드 모음이 아니라,  
-**Python → ML → DL → NLP → Vector Search → Linux/Docker → AI 프로젝트**로 이어지는 학습 흐름을 정리한 공간입니다.
+**Python → ML → DL → NLP → Vector Search → Linux/Docker → Speech AI → AI 프로젝트**로 이어지는 학습 흐름을 정리한 공간입니다.
 
 - 직접 작성한 코드 중심
 - 복습 기반 학습 기록
@@ -33,6 +33,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 - SQLite3
 - Linux / Ubuntu
 - Docker
+- Audio / Speech Processing
 - Git / GitHub
 
 ---
@@ -43,6 +44,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 - 머신러닝 / 딥러닝 핵심 개념 정리
 - NLP와 Transformer 구조 이해 및 실습
 - Linux / Docker 기초와 컨테이너 환경 이해
+- STT / TTS / 음성 데이터 처리 흐름 이해
 - 벡터 검색, FastAPI, Flask, 풀스택 프로젝트 경험 확장
 
 ---
@@ -113,6 +115,8 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day27 | Linux / Ubuntu / Vim / WSL2 환경 이해 / KoGPT-2 챗봇 페르소나 매핑 |
 | Day28 | 정규표현식 / grep / 리다이렉션 / 파이프 / mount / 프로세스 관리 / crontab / SSH |
 | Day29 | Docker 기초 / 이미지와 컨테이너 / 볼륨 / 환경변수 / Redis / MariaDB / WordPress 실습 |
+| Day30 | Docker 심화 / 다중 컨테이너 / Docker Network / Kubernetes 기초 |
+| Day31 | 음성인식 / 음성합성 / STT / TTS / Fourier Transform / STFT / CTC / RNN-T 기초 |
 
 ---
 
@@ -148,6 +152,8 @@ Python-to-AI/
 ├── day27_linux/
 ├── day28_linux_system/
 ├── day29_docker/
+├── day30_docker_kubernetes/
+├── day31_speech_ai/
 ├── visual_notes/
 │   ├── transformer_interactive_flow.html
 │   └── cnn_rnn_lstm_gru_interactive_flow.html
@@ -158,44 +164,42 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-## 🔥 Recent Update
+### Day30: 다중 컨테이너 구조와 Docker Network / Kubernetes 기초
 
-### Day28: Linux 기초와 시스템 명령어 학습
-
-정규표현식, `grep`, 리다이렉션, 파이프, 마운트, 프로세스 관리, 작업 예약, SSH까지 리눅스 기본 명령어와 시스템 개념을 학습했습니다.  
-특히 문자열 검색과 명령어 조합 방식, 프로세스와 메모리 구조를 함께 보면서 운영체제의 기본 흐름을 구조적으로 이해하려고 했습니다.
+API 서버와 DB 서버를 하나의 컨테이너에 함께 넣기보다, 역할별로 분리된 다중 컨테이너 구조가 왜 더 효율적인지 학습했습니다.  
+또한 Docker Network 개념과 기본 bridge 네트워크, 사용자 정의 bridge 네트워크의 차이를 정리하고, Kubernetes가 여러 컨테이너를 관리하는 오케스트레이션 플랫폼이라는 점을 이해했습니다.
 
 #### 핵심 정리
-- 정규표현식과 `grep`을 활용한 문자열 검색
-- 리다이렉션과 파이프를 통한 명령어 조합
-- `mount` 개념과 파일 시스템 연결 방식 이해
-- `ps`, `kill`, `job`을 통한 프로세스 관리
-- `at`, `crontab`을 이용한 작업 예약
-- `SSH`와 원격 접속 개념 정리
+- 다중 컨테이너 구조의 필요성 이해
+- API 서버와 DB 서버 분리 운영의 장점 정리
+- Docker Network와 컨테이너 간 통신 개념 학습
+- 기본 bridge 와 사용자 정의 bridge 네트워크 차이 이해
+- `docker cp`, `docker commit`, `docker save/load`, `docker export/import` 명령어 정리
+- Kubernetes의 역할과 컨테이너 오케스트레이션 개념 이해
 
 #### Troubleshooting
-- 정규표현식 기호가 비슷해서 처음에 헷갈렸음
-- `ps`, `kill`, `job` 명령어의 사용 상황을 구분하는 연습이 더 필요했음
-- `mount`, `at`, `crontab`은 개념 이해보다 실습 경험이 더 필요하다고 느꼈음
+- 기본 bridge 와 사용자 정의 bridge 차이가 처음에는 헷갈렸음
+- 네트워크 드라이버 종류가 한 번에 많아 바로 구분하기 어려웠음
+- `save/load` 와 `export/import` 의 차이를 다시 복습할 필요가 있었음
 
+### Day31: Speech AI 기초와 STT / TTS 실습
 
-### Day29: Docker 기초와 컨테이너 기반 서비스 연결 실습
-
-Docker의 기본 개념인 이미지, 컨테이너, 볼륨, 환경변수, 포트 연결을 학습했습니다.  
-또한 Redis, MariaDB, WordPress 컨테이너를 직접 실행하면서 컨테이너 기반 서비스 구조를 실습했습니다.  
-특히 WordPress와 MariaDB를 연결해 **브라우저 → WordPress → DB** 흐름을 직접 확인했습니다.
+음성인식과 음성합성의 기초 개념을 학습하고, STT(Speech To Text), TTS(Text To Speech), 음성 변화 실습을 진행했습니다.  
+또한 소리의 물리적 특성인 진폭, 주파수, 위상과 함께 Fourier Transform, STFT, Spectrogram, Mel-Spectrogram 개념을 정리했습니다.  
+딥러닝 기반 음성인식 구조에서는 CTC, LAS, RNN-T의 차이와 정렬 문제를 중심으로 흐름을 이해했습니다.
 
 #### 핵심 정리
-- Docker image / container 개념 이해
-- `docker run`, `docker ps`, `docker exec` 기본 명령어 실습
-- 볼륨과 마운트를 통한 데이터 영속화 개념 학습
-- 환경변수를 이용한 컨테이너 설정 방식 이해
-- Redis, MariaDB, WordPress 실행 및 연결 실습
+- 진폭, 주파수, 위상 등 음성 신호의 기본 개념 이해
+- Fourier Transform 과 STFT 차이 정리
+- Spectrogram / Mel-Spectrogram 기반 음성 특징 표현 학습
+- STT 데이터 구조(Waveform, Utterance, Alignment) 이해
+- CTC, LAS, RNN-T 등 딥러닝 기반 음성인식 구조 개념 정리
+- STT / TTS / 음성 변화 실습 진행
 
 #### Troubleshooting
-- Windows cmd 환경에서는 교재의 줄바꿈(`\`) 형식을 그대로 사용할 수 없어 한 줄 명령어로 다시 입력해야 했음
-- 포트 연결과 컨테이너 내부/외부 구조가 처음에는 헷갈렸음
-- DB 연결 구조와 볼륨 개념이 한 번에 들어와 정리하는 데 시간이 필요했음
+- Fourier Transform 과 STFT의 차이를 처음에는 헷갈렸음
+- CTC의 blank, alignment 개념이 직관적으로 바로 들어오지 않았음
+- 음성인식은 텍스트 처리와 달리 시간축과 정렬 문제가 함께 들어가서 더 복합적으로 느껴졌음
 
 ---
 

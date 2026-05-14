@@ -1,6 +1,6 @@
 # Python-to-AI
 
-Python 기초부터 머신러닝, 딥러닝, NLP, 벡터 검색, API/풀스택, Linux/Docker 실습까지의 학습 과정을 기록한 저장소입니다.  
+Python 기초부터 머신러닝, 딥러닝, NLP, 벡터 검색, API/풀스택, Linux/Docker, Speech AI, 데이터베이스 실습까지의 학습 과정을 기록한 저장소입니다.  
 AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용, 실습 프로젝트, 시각화 자료를 함께 정리하고 있습니다.
 
 ---
@@ -8,12 +8,13 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 ## 📌 About
 
 이 저장소는 단순한 코드 모음이 아니라,  
-**Python → ML → DL → NLP → Vector Search → Linux/Docker → Speech AI → AI 프로젝트**로 이어지는 학습 흐름을 정리한 공간입니다.
+**Python → ML → DL → NLP → Vector Search → Linux/Docker → Speech AI → Database → AI 프로젝트**로 이어지는 학습 흐름을 정리한 공간입니다.
 
 - 직접 작성한 코드 중심
 - 복습 기반 학습 기록
 - 개념과 실습을 함께 정리
 - 시행착오와 디버깅 과정까지 기록
+- 프로젝트 경험을 바탕으로 개념을 다시 해석하고 연결
 
 ---
 
@@ -31,6 +32,9 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 - Streamlit
 - Flask
 - SQLite3
+- MySQL
+- PostgreSQL
+- MongoDB
 - Linux / Ubuntu
 - Docker
 - Audio / Speech Processing
@@ -46,11 +50,20 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 - Linux / Docker 기초와 컨테이너 환경 이해
 - STT / TTS / 음성 데이터 처리 흐름 이해
 - 음성 명령 기반 데스크톱 어시스턴트 구현 실습
+- 관계형 데이터베이스와 NoSQL의 차이 이해
+- 데이터 구조, 키, 제약조건, 테이블 관계 설계 학습
 - 벡터 검색, FastAPI, Flask, 풀스택 프로젝트 경험 확장
 
 ---
 
 ## 🚀 Featured Projects
+
+- **[SchoolBridge - 다문화 가정 학교 안내 AI 서비스](https://github.com/Maxmunzy/multicultural-ai)**
+  - 다문화 가정 학부모를 위한 학교 가정통신문 분석·번역·TTS 서비스
+  - 공지 원문에서 할 일 문장을 추출하고, 일정 / 준비물 / 제출 / 비용 / 건강·안전 / 기타 항목으로 분류
+  - NLLB 번역 모델과 글로사리, 슬롯 보호, 후처리 구조를 결합해 학교 도메인 용어와 날짜·금액·URL 같은 핵심 정보를 보존
+  - Android 앱, FastAPI 서버, 모델 파이프라인, TTS 기능을 연결한 팀 프로젝트
+  - 단순 생성형 AI API 의존이 아니라, 규칙·검수·파이프라인 구조로 서비스 품질을 제어하는 방향으로 설계
 
 - **[Day20 API Project](./day20_api/)**
   - 공공데이터 OpenAPI 호출 및 페이지네이션 처리
@@ -119,6 +132,8 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day30 | Docker 심화 / 다중 컨테이너 / Docker Network / Kubernetes 기초 |
 | Day31 | 음성인식 / 음성합성 / STT / TTS / Fourier Transform / STFT / CTC / RNN-T 기초 |
 | Day32 | Speech AI 실습 / Tacotron2 TTS / Whisper STT / 음성 명령 데스크톱 어시스턴트 / Freesound Audio Tagging 코드 보완 |
+| Day33 | MySQL / PostgreSQL 기초 / DBeaver / Python DB 연결 |
+| Day34 | 관계형 데이터베이스 / 키 / 제약조건 / 복합키 / RDB와 NoSQL |
 
 ---
 
@@ -156,7 +171,9 @@ Python-to-AI/
 ├── day29_docker/
 ├── day30_docker_kubernetes/
 ├── day31_speech_ai/
-├── day31_speech_ai/
+├── day32_speech_ai/
+├── day33_db_connection/
+├── day34_db_relationship/
 ├── visual_notes/
 │   ├── index.html
 │   ├── python_basics_summary.html
@@ -173,51 +190,73 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day31: Speech AI 기초와 STT / TTS 실습
+### Day33: MySQL / PostgreSQL 기초와 Python DB 연결
 
-음성인식과 음성합성의 기초 개념을 학습하고, STT(Speech To Text), TTS(Text To Speech), 음성 변화 실습을 진행했습니다.  
-또한 소리의 물리적 특성인 진폭, 주파수, 위상과 함께 Fourier Transform, STFT, Spectrogram, Mel-Spectrogram 개념을 정리했습니다.  
-딥러닝 기반 음성인식 구조에서는 CTC, LAS, RNN-T의 차이와 정렬 문제를 중심으로 흐름을 이해했습니다.
+오늘은 MySQL과 PostgreSQL의 기본 개념을 학습하고, 로컬 환경에서 데이터베이스를 직접 설치하고 연결하는 실습을 진행했습니다.
 
-#### 핵심 정리
-- 진폭, 주파수, 위상 등 음성 신호의 기본 개념 이해
-- Fourier Transform 과 STFT 차이 정리
-- Spectrogram / Mel-Spectrogram 기반 음성 특징 표현 학습
-- STT 데이터 구조(Waveform, Utterance, Alignment) 이해
-- CTC, LAS, RNN-T 등 딥러닝 기반 음성인식 구조 개념 정리
-- STT / TTS / 음성 변화 실습 진행
+MySQL Community Server를 설치한 뒤 CMD에서 `mysql -u root -p` 명령어로 접속했고, `SHOW DATABASES;`, `CREATE DATABASE`, `USE`, `SHOW TABLES;`와 같은 기본 명령어를 실습했습니다.  
+또한 DBeaver를 이용해 GUI 환경에서 MySQL 연결을 만들고, SQL Editor를 통해 명령어를 실행하는 흐름도 확인했습니다.
 
-#### Troubleshooting
-- Fourier Transform 과 STFT의 차이를 처음에는 헷갈렸음
-- CTC의 blank, alignment 개념이 직관적으로 바로 들어오지 않았음
-- 음성인식은 텍스트 처리와 달리 시간축과 정렬 문제가 함께 들어가서 더 복합적으로 느껴졌음
-
-### Day32: Speech AI 실습과 음성 명령 데스크톱 어시스턴트 구현
-
-오늘은 Speech AI 기초 개념을 바탕으로 로컬 환경에서 STT / TTS 실습을 직접 진행했습니다.  
-Python 3.13 환경에서는 일부 딥러닝 패키지 호환성 문제가 있어 Python 3.12 기반 아나콘다 환경으로 재구성했고, `torch` import 및 CUDA 인식 여부를 확인하며 실습 환경을 안정화했습니다.
-
-Tacotron2 기반 TTS를 로컬에서 테스트하며 문장별 출력 품질 차이를 확인했고, 반복 발화에서는 attention collapse처럼 보이는 현상과 발음이 뭉개지는 문제도 경험했습니다.  
-Whisper 기반 STT 테스트에서는 이어폰 마이크 입력과 녹음 파일을 활용해 음성 인식 결과를 확인했습니다.
-
-또한 학원 환경에 맞춰 텍스트 명령 기반의 데스크톱 어시스턴트 구조도 함께 구현했습니다.  
-`parse_command` 함수를 통해 다양한 한국어 표현을 하나의 명령으로 해석하도록 구성했고, 메모장 실행, 볼륨 조절, 스크린샷 저장, 미디어 제어 구조까지 연결하며  
-**입력 → 명령 해석 → 시스템 동작 → 음성 출력** 흐름의 핵심 파이프라인을 실습했습니다.
+Python에서는 `mysql-connector-python`을 설치해 MySQL과 연결하는 코드를 작성했습니다.  
+이 과정에서 비밀번호 불일치처럼 보이는 1045 에러, `db is not defined` 에러, 환경 변수 PATH 문제, 코드 저장 누락 문제를 직접 겪고 해결했습니다.
 
 #### 핵심 정리
-- Python 3.12 기반 Speech AI 로컬 실습 환경 구성
-- Tacotron2 기반 TTS 테스트 및 출력 품질 확인
-- Whisper 기반 STT 입력 테스트
-- 다양한 한국어 표현을 처리하는 명령 파서 구조 구현
-- 메모장 실행 / 볼륨 조절 / 스크린샷 저장 / 미디어 제어 연결
-- 음성 AI를 실제 시스템 동작과 연결하는 파이프라인 실습
-- Freesound Audio Tagging 2019 실습 코드 보완 및 호환성 오류 수정
+- MySQL Community Server 설치 및 CMD 접속
+- `SHOW DATABASES;`, `CREATE DATABASE`, `USE`, `SHOW TABLES;` 실습
+- DBeaver 연결 생성 및 SQL Editor 사용
+- Python에서 `mysql-connector-python`으로 DB 연결
+- PostgreSQL 기본 계정, 포트, 드라이버 개념 정리
+- DB 접속 정보와 예외 처리 구조 이해
 
 #### Troubleshooting
-- Python 3.13 환경에서 일부 패키지 호환성 문제가 발생했음
-- TTS 출력에서 특정 발음과 반복 문장 품질이 불안정했음
-- 학원 환경상 음성 테스트를 자유롭게 반복하기 어려워 텍스트 명령 방식도 함께 사용했음
-- NumPy 최신 버전에서 발생하는 deprecated 타입 오류를 수정했음
+- `mysql` 명령어가 CMD에서 인식되지 않아 MySQL `bin` 폴더를 PATH에 추가했음
+- MySQL 명령어 끝에 세미콜론을 빼먹어 `->` 상태에 빠졌음
+- Python에서 DB 연결 실패 후 `db` 변수를 참조해 `NameError`가 발생했음
+- VS Code에서 코드를 수정하고 저장하지 않아 이전 코드가 계속 실행되었음
+- DBeaver에서 SQL Editor와 Database Navigator 사용법을 다시 확인했음
+
+---
+
+### Day34: 관계형 데이터베이스와 RDB / NoSQL 이해
+
+오늘은 관계형 데이터베이스의 기본 구조와 키, 제약조건, 복합키, 테이블 간 관계를 집중적으로 학습했습니다.
+
+공유 킥보드 서비스를 예제로 `kickboard`, `customer`, `borrow` 테이블을 만들고, 테이블 생성, 데이터 삽입, 컬럼 수정, 테이블 삭제, 제약조건 추가와 삭제를 실습했습니다.  
+특히 `borrow` 테이블을 통해 고객과 킥보드 사이의 대여 관계를 표현했고, `customer_number + rental_time`을 복합 기본키로 설정하며 복합키의 의미를 이해했습니다.
+
+처음에는 기본키, 외래키, 제약조건, 복합키가 모두 비슷하게 느껴졌지만, 이를 물류 흐름과 연결해 생각하니 이해가 쉬워졌습니다.  
+테이블은 공정별 장부, 기본키는 한 줄을 구분하는 식별자, 외래키는 다른 장부와 이어지는 연결고리, 제약조건은 잘못된 데이터가 들어오지 못하게 막는 검수 규칙으로 이해했습니다.
+
+또한 RDB와 NoSQL의 차이를 학습하면서, 회원가입·글로사리·주문·권한처럼 구조와 관계가 명확한 데이터는 RDB에 적합하고, AI 추론 결과·로그·원본 응답처럼 구조가 유동적인 데이터는 MongoDB 같은 NoSQL에 적합하다는 관점을 정리했습니다.
+
+#### 핵심 정리
+- 데이터와 정보의 차이 이해
+- 파일 처리 시스템의 한계와 데이터베이스의 필요성 정리
+- RDB와 NoSQL 차이 이해
+- 테이블, 속성, 튜플, 도메인 개념 정리
+- `CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`, `INSERT`, `SELECT`, `DESC` 실습
+- `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, `NOT NULL`, `CHECK`, `DEFAULT` 제약조건 학습
+- 복합 기본키와 관계 테이블 이해
+- DBeaver ERD를 통해 테이블 관계 시각화 확인
+- 프로젝트 기준으로 RDB / NoSQL 적용 대상 구분
+
+#### Troubleshooting
+- 날짜와 시간 데이터를 입력할 때 따옴표를 붙이지 않아 INSERT 문에서 문제가 발생했음
+- `information_schema.table_constraints`를 조건 없이 조회해 시스템 DB 제약조건까지 모두 출력되었음
+- `DESC` 결과에서 복합키 컬럼들이 모두 `PRI`로 표시되어 처음에는 각각의 단독 기본키로 오해했음
+- MySQL 접속 후 `USE est;`를 하지 않아 `No database selected` 에러가 발생했음
+- DBeaver에서 `Ctrl + Enter`가 현재 SQL문만 실행한다는 것을 확인했음
+
+#### My Understanding
+- DB = 데이터가 흘러가는 유통과정
+- 테이블 = 공정별 장부
+- 컬럼 = 장부의 항목
+- 행 = 장부의 한 줄
+- PK = 한 줄을 구분하는 식별자
+- FK = 다른 장부와 이어지는 연결고리
+- CONSTRAINT = 잘못된 데이터가 들어오지 못하게 막는 검수 규칙
+- RDB = 정해진 장부
+- NoSQL = 유연한 기록지
 
 ---
 
@@ -227,6 +266,8 @@ Whisper 기반 STT 테스트에서는 이어폰 마이크 입력과 녹음 파�
 - 직접 코드 작성
 - 복습 후 정리
 - GitHub 업로드
+- 단순 문법 암기보다 구조와 흐름 중심으로 이해
+- 프로젝트 경험과 수업 개념을 연결해서 정리
 
 ---
 
@@ -237,6 +278,9 @@ Whisper 기반 STT 테스트에서는 이어폰 마이크 입력과 녹음 파�
 
 단순히 진도를 나가는 것보다,  
 **이해한 내용을 다시 정리하고 직접 구현하는 학습**을 목표로 하고 있습니다.
+
+최근에는 수업에서 배운 개념을 개인 프로젝트와 팀 프로젝트의 구조에 연결해보며,  
+코딩 자체뿐 아니라 데이터 흐름, 서비스 설계, 검수 구조까지 함께 이해하는 방향으로 학습하고 있습니다.
 
 ---
 

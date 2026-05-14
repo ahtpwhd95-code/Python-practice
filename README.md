@@ -287,4 +287,5 @@ Python에서는 `mysql-connector-python`을 설치해 MySQL과 연결하는 코�
 ## 👨‍💻 Author
 
 - GitHub: [mosejong](https://github.com/mosejong)
-- 꾸준한 기록과 복습으로 성장하는 AI 학습자
+- Python부터 AI 프로젝트까지 직접 만들고 기록하며 성장 중
+- 현실의 업무 흐름을 데이터와 서비스 구조로 바꾸는 개발자를 목표로 학습하고 있습니다.

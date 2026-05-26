@@ -142,6 +142,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day38 | 생성형 AI 트렌드 / 멀티모달 / AI Agent / GAN 계열 모델 |
 | Day39 | Style Transfer / VGG-19 / Gram Matrix / Fashion MNIST GAN 실습 |
 | Day40 | LLM 발전 흐름 / GPT 계열 / 프롬프트 엔지니어링 / ChatGPT 활용 실습 |
+| Day41 | RAG / LangChain / Agent / Tool / 로컬 LLM과 Gemini 실습 |
 
 ---
 
@@ -188,6 +189,7 @@ Python-to-AI/
 ├── day38_generative_ai_gan/
 ├── day39_style_transfer_gan/
 ├── day40_prompt_engineering/
+├── day41_rag_langchain/
 ├── visual_notes/
 │   ├── index.html
 │   ├── python_basics_summary.html
@@ -204,58 +206,60 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day40: 생성형 AI와 프롬프트 엔지니어링 기초
+### Day41: RAG와 LangChain 기초
 
-오늘은 LLM의 발전 흐름과 생성형 AI 서비스, 프롬프트 엔지니어링의 기본 개념을 학습했습니다.  
-언어 모델은 단어의 등장 횟수와 확률을 기반으로 문장을 예측하던 통계적 언어 모델에서 시작해, 신경망 기반 모델, 사전학습 언어 모델, 대규모 언어 모델로 발전해왔습니다.
+오늘은 RAG와 LangChain의 기본 개념을 학습하고, Jupyter Notebook 기반 실습을 진행했습니다.  
+RAG는 Retrieval Augmented Generation의 약자로, 정보 검색과 생성 과정을 결합해 LLM이 더 정확하고 근거 있는 응답을 생성하도록 돕는 방법론입니다.
 
-언어 모델의 발전 흐름은 `SLM -> NLM -> PLM -> LLM`으로 정리했습니다.  
-SLM은 단어 등장 횟수와 확률을 바탕으로 문장을 예측하는 방식이고, NLM은 신경망을 활용한 언어 모델입니다.  
-PLM은 비지도학습으로 사전학습한 언어 모델이며, LLM은 대규모 데이터와 파라미터를 기반으로 높은 수준의 언어 이해와 생성 능력을 가진 모델입니다.
+RAG가 없으면 LLM은 미리 학습된 데이터에만 의존하고, 모르는 내용에 대해 허위 정보를 생성할 수 있습니다.  
+RAG를 적용하면 최신 정보, 내부 문서, 데이터베이스, 검색 결과 등을 근거로 활용할 수 있고, 응답에 사용되는 정보의 출처를 어느 정도 통제할 수 있습니다.  
+지금까지 배운 파일 데이터 추출, SQL 기반 데이터 조회, 인터넷 검색 기반 응답 생성도 넓은 의미에서는 RAG 방식으로 이해할 수 있었습니다.
 
-GPT 계열 모델은 Decoder 기반 언어 모델로 발전해왔습니다.  
-GPT-1은 비지도 사전학습과 지도 미세조정을 결합했고, GPT-2는 더 큰 데이터와 모델 크기를 기반으로 비지도 사전학습 중심으로 발전했습니다.  
-GPT-3는 다양한 문제를 하나의 모델이 처리할 수 있도록 Meta-learning 흐름을 보여주었고, GPT-3.5는 지도학습과 인간 피드백 기반 강화학습을 활용해 대화형 AI 서비스 품질을 높였습니다.  
-GPT-4 이후에는 멀티모달과 추론 성능이 강화되었고, o계열 모델과 Deep Research는 복잡한 문제 해결과 Agentic Reasoning 흐름으로 이해했습니다.
+LangChain은 LLM 애플리케이션 개발을 돕는 오픈소스 프레임워크입니다.  
+기존에는 정보 검색, 프롬프트 구성, 모델 호출, 응답 후처리를 직접 하나의 흐름으로 구현해야 했지만, LangChain은 PromptTemplate, LLM, OutputParser, Chain, Agent, Tool, Memory, Callback 등을 모듈처럼 조립할 수 있게 해줍니다.  
+이를 통해 기능 교체, 흐름 관리, 디버깅, 확장이 쉬워진다는 점을 정리했습니다.
 
-PLM과 LLM을 활용하는 대표적인 방식으로 Fine-tuning과 Prompt Engineering을 비교했습니다.  
-Fine-tuning은 특정 task에 맞는 데이터셋으로 모델 가중치를 추가 학습하는 방식이고, Prompt Engineering은 모델의 가중치를 직접 수정하지 않고 자연어 지시를 설계해 원하는 결과를 유도하는 방식입니다.
+LangChain의 기본 작동 흐름은 `prompt | llm | output_parser`처럼 파이프라인 형태로 연결할 수 있습니다.  
+PromptTemplate은 일관된 형태의 프롬프트를 자동으로 생성하고, OutputParser는 LLM 응답을 문자열, JSON, 리스트, Pydantic 모델 등 원하는 형태로 가공합니다.  
+Agent는 상황에 따라 어떤 Tool을 사용할지 선택하는 LLM 기반 의사결정 엔진이고, Tool은 검색, 계산, API 호출 같은 외부 기능을 연결하는 단위입니다.
 
-실습에서는 ChatGPT를 활용해 개인 웹 홈페이지를 만들고, HTML과 CSS 파일을 분리해 `index.html`, `styles.css` 구조로 구성했습니다.  
-또한 C++과 JavaScript 코드를 Python으로 변환하고, TensorFlow 코드를 PyTorch 코드로 바꾸는 실습을 진행했습니다.  
-데이터 분석 코드 생성 실습에서는 pandas로 Excel 파일을 불러오고, 서울시 아파트 실거래 데이터를 기준으로 정렬, 그룹화, 평균 계산, 시각화 코드를 생성했습니다.
+실습에서는 `Rag-practice` 폴더의 노트북을 기반으로 기존 OpenAI 코드를 일부 Gemini 기반 코드로 바꾸고, `gemini-2.5-flash-lite` 모델을 사용했습니다.  
+검색 Agent 실습에서는 DuckDuckGo 검색 도구를 연결하고 `Thought / Action / Observation` 로그를 확인했습니다.  
+Gemini가 Agent 형식을 가끔 틀려 `Invalid Format` 오류가 발생했지만, `handle_parsing_errors=True` 설정으로 최종 답변 생성은 가능했습니다.
+
+로컬 LLM 실습에서는 Ollama를 설치하고 `gemma2:2b` 모델 연결을 시도했습니다.  
+외부 API는 성능이 좋지만 비용, 사용량 제한, 데이터 전송 이슈가 있고, 로컬 LLM은 데이터가 외부로 전송되지 않는 장점이 있지만 하드웨어 자원과 속도 제약을 고려해야 한다는 점을 확인했습니다.
 
 #### 핵심 정리
-- 언어 모델은 `SLM -> NLM -> PLM -> LLM` 흐름으로 발전함
-- SLM은 통계적 언어 모델, NLM은 신경망 기반 언어 모델임
-- PLM은 비지도학습 기반 사전학습 언어 모델임
-- LLM은 큰 규모의 PLM으로, 높은 수준의 언어 이해와 생성 능력을 가짐
-- GPT 계열은 Decoder 기반 언어 모델로 발전해왔음
-- Fine-tuning은 모델 가중치를 task에 맞게 추가 학습하는 방식임
-- Prompt Engineering은 모델 가중치를 바꾸지 않고 입력 지시를 설계하는 방식임
-- 좋은 프롬프트는 역할, 목표, 입력 정보, 출력 형식, 예시를 명확히 제공함
-- 이미지 생성 프롬프트는 주제, 스타일, 프레이밍, 카메라 뷰, Negative Prompt 등을 고려함
-- ChatGPT가 생성한 코드는 실행과 오류 메시지를 통해 반드시 검증해야 함
+- RAG는 검색된 외부 정보를 LLM 답변 생성에 함께 활용하는 방식임
+- RAG를 사용하면 최신 정보, 내부 문서, 데이터베이스 등을 근거로 답변할 수 있음
+- LangChain은 LLM 애플리케이션을 구성하는 여러 기능을 모듈처럼 연결하는 프레임워크임
+- 기본 흐름은 `PromptTemplate -> LLM -> OutputParser` 구조로 이해할 수 있음
+- Agent는 어떤 Tool을 사용할지 선택하는 LLM 기반 의사결정 구조임
+- Tool은 검색, 계산, API 호출 같은 외부 기능을 연결하는 단위임
+- Memory는 대화 이력과 맥락을 저장하는 기능임
+- Callback은 실행 과정을 추적하고 디버깅하는 데 활용됨
+- 외부 API는 성능과 편의성이 좋지만 비용과 데이터 전송 이슈가 있음
+- 로컬 LLM은 보안 측면의 장점이 있지만 하드웨어와 속도 제약이 있음
 
 #### Troubleshooting
-- SLM, NLM, PLM, LLM처럼 비슷한 약어가 많아 처음에는 구분이 헷갈렸음
-  - 모델이 어떤 방식으로 언어를 학습하고 활용하는지 기준으로 정리
-- GPT 모델별 차이는 이름이 비슷해 단순 암기보다 발전 흐름으로 이해할 필요가 있었음
-  - 모델 크기, 사전학습, 미세조정, 멀티모달, 추론 강화 흐름으로 구분
-- 프롬프트 엔지니어링은 쉬워 보이지만 원하는 결과를 얻으려면 조건을 구체적으로 작성해야 했음
-  - 역할, 목표, 출력 형식, 예시를 함께 제공하는 습관이 필요함
-- ChatGPT가 생성한 코드가 항상 바로 정답은 아니었음
-  - 실행 결과와 오류 메시지를 통해 직접 검증해야 함
+- 기존 OpenAI 코드와 Gemini 코드의 사용 방식이 달라 모델 호출 부분을 수정해야 했음
+  - Gemini 기반 코드와 Ollama 기반 코드를 따로 정리할 필요가 있음
+- LangChain 버전에 따라 import 경로가 달라지는 문제가 있었음
+  - 실습 환경의 버전과 문서의 버전을 함께 확인해야 함
+- Gemini Agent 실습 중 출력 형식이 맞지 않아 `Invalid Format` 오류가 발생했음
+  - `handle_parsing_errors=True` 설정으로 최종 답변 생성은 가능했음
+- Ollama 설치 후에도 PATH 문제로 `ollama` 명령이 바로 실행되지 않았음
+  - 전체 실행 경로를 직접 지정해 실행함
 
 #### My Understanding
-- LLM = SLM, NLM, PLM의 흐름 위에서 발전한 대규모 언어 모델
-- Fine-tuning = 모델 자체를 task에 맞게 더 학습시키는 방식
-- Prompt Engineering = AI에게 원하는 결과를 정확히 설명하는 방식
-- 프롬프트 = 질문이 아니라 작업 지시서에 가까움
-- 좋은 프롬프트 = 역할 + 목표 + 입력 + 출력 형식 + 예시
-- 이미지 생성 프롬프트 = 주제와 스타일뿐 아니라 구도, 카메라, 제외 요소까지 설계
-- AI 코드 생성 = 빠른 초안 생성 도구이지만 검증은 사람이 해야 함
-- 프롬프트 엔지니어링은 코딩을 대체한다기보다 AI와 협업하기 위한 의사소통 방식임
+- RAG = LLM이 답변할 때 외부 근거를 함께 참고하게 하는 구조
+- LangChain = 프롬프트, 모델, 파서, 검색기, 도구를 연결하는 파이프라인 도구
+- Chain = 입력부터 출력까지 이어지는 실행 흐름
+- Agent = 상황에 따라 도구를 고르는 구조
+- OutputParser = 모델 응답을 원하는 형식으로 정리하는 단계
+- SchoolBridge의 slot protection, glossary, template, 후처리 검증 구조도 LangChain 관점에서 다시 해석할 수 있음
+- 앞으로 RAG를 사용할 때는 단순 챗봇보다 근거가 남는 답변 구조를 우선 설계해야 함
 
 ---
 

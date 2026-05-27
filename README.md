@@ -143,6 +143,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day39 | Style Transfer / VGG-19 / Gram Matrix / Fashion MNIST GAN 실습 |
 | Day40 | LLM 발전 흐름 / GPT 계열 / 프롬프트 엔지니어링 / ChatGPT 활용 실습 |
 | Day41 | RAG / LangChain / Agent / Tool / 로컬 LLM과 Gemini 실습 |
+| Day42 | Pillow / MongoDB / RAG&LLM / Gemini API / STT-TTS 구조 |
 
 ---
 
@@ -190,6 +191,7 @@ Python-to-AI/
 ├── day39_style_transfer_gan/
 ├── day40_prompt_engineering/
 ├── day41_rag_langchain/
+├── day42_mongodb_rag_assistant/
 ├── visual_notes/
 │   ├── index.html
 │   ├── python_basics_summary.html
@@ -206,60 +208,48 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day41: RAG와 LangChain 기초
+### Day42: MongoDB 기반 RAG&LLM 로컬 어시스턴트 구조
 
-오늘은 RAG와 LangChain의 기본 개념을 학습하고, Jupyter Notebook 기반 실습을 진행했습니다.  
-RAG는 Retrieval Augmented Generation의 약자로, 정보 검색과 생성 과정을 결합해 LLM이 더 정확하고 근거 있는 응답을 생성하도록 돕는 방법론입니다.
+오늘은 Python 이미지 처리 기본, MongoDB 데이터 저장, Gemini 기반 RAG&LLM 구조를 함께 실습했습니다.  
+먼저 이미지 처리를 위해 `Pillow` 라이브러리를 설치하고, import할 때는 패키지 이름인 `pillow`가 아니라 `PIL`을 사용한다는 점을 확인했습니다.
 
-RAG가 없으면 LLM은 미리 학습된 데이터에만 의존하고, 모르는 내용에 대해 허위 정보를 생성할 수 있습니다.  
-RAG를 적용하면 최신 정보, 내부 문서, 데이터베이스, 검색 결과 등을 근거로 활용할 수 있고, 응답에 사용되는 정보의 출처를 어느 정도 통제할 수 있습니다.  
-지금까지 배운 파일 데이터 추출, SQL 기반 데이터 조회, 인터넷 검색 기반 응답 생성도 넓은 의미에서는 RAG 방식으로 이해할 수 있었습니다.
+MongoDB 실습에서는 로컬 서버에 `MongoClient("mongodb://localhost:27017/")` 형태로 연결했습니다.  
+`LocalAssistantDB` 데이터베이스를 사용하고, 출장 기록을 저장하는 `trips`, 지출 내역을 저장하는 `expenses`, 사진 메타데이터를 저장하는 `photos` 컬렉션을 생성해 샘플 데이터를 저장했습니다.
 
-LangChain은 LLM 애플리케이션 개발을 돕는 오픈소스 프레임워크입니다.  
-기존에는 정보 검색, 프롬프트 구성, 모델 호출, 응답 후처리를 직접 하나의 흐름으로 구현해야 했지만, LangChain은 PromptTemplate, LLM, OutputParser, Chain, Agent, Tool, Memory, Callback 등을 모듈처럼 조립할 수 있게 해줍니다.  
-이를 통해 기능 교체, 흐름 관리, 디버깅, 확장이 쉬워진다는 점을 정리했습니다.
+오늘 실습한 `app.py`는 사용자의 질문을 받아 Gemini가 질문 의도를 분석하고, MongoDB에서 관련 데이터를 검색한 뒤, 검색 결과를 Context로 구성해 최종 답변을 생성하는 구조였습니다.  
+이를 통해 단순히 LLM에게 질문하는 방식이 아니라, 내부 데이터베이스에서 관련 정보를 검색한 뒤 답변을 생성하는 텍스트 기반 RAG&LLM 구조를 확인했습니다.
 
-LangChain의 기본 작동 흐름은 `prompt | llm | output_parser`처럼 파이프라인 형태로 연결할 수 있습니다.  
-PromptTemplate은 일관된 형태의 프롬프트를 자동으로 생성하고, OutputParser는 LLM 응답을 문자열, JSON, 리스트, Pydantic 모델 등 원하는 형태로 가공합니다.  
-Agent는 상황에 따라 어떤 Tool을 사용할지 선택하는 LLM 기반 의사결정 엔진이고, Tool은 검색, 계산, API 호출 같은 외부 기능을 연결하는 단위입니다.
+실습 중 Gemini API 키 관련 오류도 확인했습니다.  
+`API key not valid` 오류는 API 키가 잘못되었거나, 만료되었거나, `.env` 또는 코드에 잘못 입력되었을 가능성이 있습니다.  
+API 기반 실습에서는 키 관리와 환경변수 설정이 중요하다는 점을 다시 확인했습니다.
 
-실습에서는 `Rag-practice` 폴더의 노트북을 기반으로 기존 OpenAI 코드를 일부 Gemini 기반 코드로 바꾸고, `gemini-2.5-flash-lite` 모델을 사용했습니다.  
-검색 Agent 실습에서는 DuckDuckGo 검색 도구를 연결하고 `Thought / Action / Observation` 로그를 확인했습니다.  
-Gemini가 Agent 형식을 가끔 틀려 `Invalid Format` 오류가 발생했지만, `handle_parsing_errors=True` 설정으로 최종 답변 생성은 가능했습니다.
-
-로컬 LLM 실습에서는 Ollama를 설치하고 `gemma2:2b` 모델 연결을 시도했습니다.  
-외부 API는 성능이 좋지만 비용, 사용량 제한, 데이터 전송 이슈가 있고, 로컬 LLM은 데이터가 외부로 전송되지 않는 장점이 있지만 하드웨어 자원과 속도 제약을 고려해야 한다는 점을 확인했습니다.
+선생님이 설명한 전체 구조는 `STT -> RAG&LLM -> TTS`였습니다.  
+STT는 음성을 텍스트로 변환하고, RAG&LLM은 검색 기반으로 AI 답변을 생성하며, TTS는 텍스트 답변을 음성으로 출력하는 단계입니다.  
+오늘은 이 전체 음성 서비스 구조 중 RAG&LLM 중심의 데이터 검색 및 답변 생성 구조를 실습했습니다.
 
 #### 핵심 정리
-- RAG는 검색된 외부 정보를 LLM 답변 생성에 함께 활용하는 방식임
-- RAG를 사용하면 최신 정보, 내부 문서, 데이터베이스 등을 근거로 답변할 수 있음
-- LangChain은 LLM 애플리케이션을 구성하는 여러 기능을 모듈처럼 연결하는 프레임워크임
-- 기본 흐름은 `PromptTemplate -> LLM -> OutputParser` 구조로 이해할 수 있음
-- Agent는 어떤 Tool을 사용할지 선택하는 LLM 기반 의사결정 구조임
-- Tool은 검색, 계산, API 호출 같은 외부 기능을 연결하는 단위임
-- Memory는 대화 이력과 맥락을 저장하는 기능임
-- Callback은 실행 과정을 추적하고 디버깅하는 데 활용됨
-- 외부 API는 성능과 편의성이 좋지만 비용과 데이터 전송 이슈가 있음
-- 로컬 LLM은 보안 측면의 장점이 있지만 하드웨어와 속도 제약이 있음
+- Pillow는 Python 이미지 처리에 사용하는 라이브러리임
+- Pillow를 import할 때는 `from PIL import Image` 형태를 사용함
+- MongoDB는 데이터를 컬렉션 단위로 저장하고 관리할 수 있음
+- `trips`, `expenses`, `photos` 컬렉션으로 출장, 지출, 사진 메타데이터를 관리함
+- RAG&LLM 구조에서는 DB 검색 결과를 Context로 구성해 LLM 답변에 활용함
+- Gemini는 질문 의도 분석과 최종 답변 생성에 사용됨
+- API 기반 실습에서는 API 키와 `.env` 설정이 중요함
+- `STT -> RAG&LLM -> TTS`는 음성 기반 AI 비서 구조로 확장할 수 있는 흐름임
 
 #### Troubleshooting
-- 기존 OpenAI 코드와 Gemini 코드의 사용 방식이 달라 모델 호출 부분을 수정해야 했음
-  - Gemini 기반 코드와 Ollama 기반 코드를 따로 정리할 필요가 있음
-- LangChain 버전에 따라 import 경로가 달라지는 문제가 있었음
-  - 실습 환경의 버전과 문서의 버전을 함께 확인해야 함
-- Gemini Agent 실습 중 출력 형식이 맞지 않아 `Invalid Format` 오류가 발생했음
-  - `handle_parsing_errors=True` 설정으로 최종 답변 생성은 가능했음
-- Ollama 설치 후에도 PATH 문제로 `ollama` 명령이 바로 실행되지 않았음
-  - 전체 실행 경로를 직접 지정해 실행함
+- Gemini API 키 오류로 최종 답변 생성까지 정상 확인하지 못했음
+  - API 키 값, 만료 여부, `.env` 입력 위치, 환경변수 로딩 방식을 확인해야 함
+- RAG 구조에서 어떤 데이터를 검색하고 어떤 내용을 Context로 넣어야 좋은 답변이 나오는지 더 연습이 필요했음
+  - MongoDB 검색 결과와 최종 답변 사이의 연결 구조를 다시 확인할 예정
 
 #### My Understanding
-- RAG = LLM이 답변할 때 외부 근거를 함께 참고하게 하는 구조
-- LangChain = 프롬프트, 모델, 파서, 검색기, 도구를 연결하는 파이프라인 도구
-- Chain = 입력부터 출력까지 이어지는 실행 흐름
-- Agent = 상황에 따라 도구를 고르는 구조
-- OutputParser = 모델 응답을 원하는 형식으로 정리하는 단계
-- SchoolBridge의 slot protection, glossary, template, 후처리 검증 구조도 LangChain 관점에서 다시 해석할 수 있음
-- 앞으로 RAG를 사용할 때는 단순 챗봇보다 근거가 남는 답변 구조를 우선 설계해야 함
+- MongoDB = 개인 일정, 출장, 지출, 사진 기록 같은 데이터를 저장하는 내부 지식 저장소
+- RAG&LLM = 내부 데이터를 검색해 Context로 넣고 LLM이 답변하도록 만드는 구조
+- Gemini = 질문 의도 분석과 답변 생성에 활용되는 LLM
+- Context = DB 검색 결과를 LLM이 이해할 수 있게 정리한 입력 정보
+- STT/TTS를 연결하면 텍스트 기반 RAG를 음성 기반 로컬 AI 비서로 확장할 수 있음
+- AI 서비스는 LLM API 호출뿐 아니라 데이터 저장소, 검색 로직, Context 구성, 답변 생성 흐름을 함께 설계해야 함
 
 ---
 

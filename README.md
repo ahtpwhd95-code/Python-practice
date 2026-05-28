@@ -144,6 +144,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day40 | LLM 발전 흐름 / GPT 계열 / 프롬프트 엔지니어링 / ChatGPT 활용 실습 |
 | Day41 | RAG / LangChain / Agent / Tool / 로컬 LLM과 Gemini 실습 |
 | Day42 | Pillow / MongoDB / RAG&LLM / Gemini API / STT-TTS 구조 |
+| Day43 | 강화학습 / Q-Learning / Policy Gradient / SFT / LoRA / DPO |
 
 ---
 
@@ -192,6 +193,7 @@ Python-to-AI/
 ├── day40_prompt_engineering/
 ├── day41_rag_langchain/
 ├── day42_mongodb_rag_assistant/
+├── day43_reinforcement_learning_llm/
 ├── visual_notes/
 │   ├── index.html
 │   ├── python_basics_summary.html
@@ -208,48 +210,62 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day42: MongoDB 기반 RAG&LLM 로컬 어시스턴트 구조
+### Day43: 강화학습과 LLM 학습 흐름
 
-오늘은 Python 이미지 처리 기본, MongoDB 데이터 저장, Gemini 기반 RAG&LLM 구조를 함께 실습했습니다.  
-먼저 이미지 처리를 위해 `Pillow` 라이브러리를 설치하고, import할 때는 패키지 이름인 `pillow`가 아니라 `PIL`을 사용한다는 점을 확인했습니다.
+오늘은 강화학습의 기본 개념부터 Q-Learning, Policy Gradient, LLM 학습에서의 SFT와 Preference/DPO 흐름까지 학습했습니다.  
+강화학습은 에이전트가 환경 안에서 행동을 선택하고, 그 결과로 받은 보상을 기준으로 더 나은 행동을 찾아가는 학습 방식입니다.
 
-MongoDB 실습에서는 로컬 서버에 `MongoClient("mongodb://localhost:27017/")` 형태로 연결했습니다.  
-`LocalAssistantDB` 데이터베이스를 사용하고, 출장 기록을 저장하는 `trips`, 지출 내역을 저장하는 `expenses`, 사진 메타데이터를 저장하는 `photos` 컬렉션을 생성해 샘플 데이터를 저장했습니다.
+강화학습의 주요 구성요소는 Agent, Environment, State, Action, Reward입니다.  
+MDP는 강화학습 문제를 수학적으로 표현하는 틀이며, 가능한 상태 집합 `S`, 행동 집합 `A`, 전이 함수 `P`, 보상 함수 `R`, 감가율 `γ`로 구성됩니다.  
+Q함수는 현재 상태에서 특정 행동을 했을 때 기대되는 누적 보상의 값을 나타냅니다.
 
-오늘 실습한 `app.py`는 사용자의 질문을 받아 Gemini가 질문 의도를 분석하고, MongoDB에서 관련 데이터를 검색한 뒤, 검색 결과를 Context로 구성해 최종 답변을 생성하는 구조였습니다.  
-이를 통해 단순히 LLM에게 질문하는 방식이 아니라, 내부 데이터베이스에서 관련 정보를 검색한 뒤 답변을 생성하는 텍스트 기반 RAG&LLM 구조를 확인했습니다.
+Q-Learning 실습에서는 Q-table을 사용해 각 상태에서 각 행동이 얼마나 좋은지 저장하고 업데이트했습니다.  
+`np.argmax(Q[state, :])`는 선택할 행동의 위치를 구할 때 사용하고, `np.max(Q[next_state, :])`는 다음 상태에서 얻을 수 있는 가장 큰 Q값 자체를 구할 때 사용합니다.  
+Epsilon-Greedy는 일정 확률로 탐험하고 나머지 확률로 현재 가장 좋은 행동을 선택해 탐험과 활용의 균형을 맞추는 방법입니다.
 
-실습 중 Gemini API 키 관련 오류도 확인했습니다.  
-`API key not valid` 오류는 API 키가 잘못되었거나, 만료되었거나, `.env` 또는 코드에 잘못 입력되었을 가능성이 있습니다.  
-API 기반 실습에서는 키 관리와 환경변수 설정이 중요하다는 점을 다시 확인했습니다.
+Taxi-v3와 FrozenLake에서는 이산 상태/행동 환경에서 Q-Learning을 실습했습니다.  
+CartPole에서는 REINFORCE 알고리즘을 사용해 정책 모델이 각 행동을 선택할 확률을 출력하고, Categorical 분포에서 행동을 샘플링하는 흐름을 확인했습니다.  
+Gymnasium에서는 종료 조건이 `done`과 `truncated`로 나뉘며, 정식 규칙을 따르려면 `done = done or truncated`처럼 처리해야 한다는 점을 확인했습니다.
 
-선생님이 설명한 전체 구조는 `STT -> RAG&LLM -> TTS`였습니다.  
-STT는 음성을 텍스트로 변환하고, RAG&LLM은 검색 기반으로 AI 답변을 생성하며, TTS는 텍스트 답변을 음성으로 출력하는 단계입니다.  
-오늘은 이 전체 음성 서비스 구조 중 RAG&LLM 중심의 데이터 검색 및 답변 생성 구조를 실습했습니다.
+Pendulum-v1은 연속 action 환경이므로 단순한 Categorical 기반 Policy Gradient로는 적합하지 않았다.  
+이를 통해 강화학습에서는 상태 공간과 행동 공간의 특성에 맞는 알고리즘을 선택해야 한다는 점을 배웠습니다.  
+또한 RC카 예시를 통해 최단거리만 reward로 삼으면 실제 성능과 어긋날 수 있으며, reward 설계가 문제 정의의 핵심이라는 점을 이해했습니다.
+
+오후에는 강화학습 개념이 LLM 학습으로 연결되었습니다.  
+LLM 학습 흐름은 사전학습, SFT/모방학습, Preference/RLHF/DPO로 정리할 수 있습니다.  
+SFT는 질문과 모범답변을 보고 답변 형식을 따라 배우는 단계이고, Preference 데이터는 `chosen`과 `rejected`를 비교해 어떤 답변이 더 좋은지 학습하는 데 사용됩니다.  
+KoAlpaca LoRA SFT 실습에서는 전체 파라미터 중 약 0.2184%만 학습 가능한 상태로 효율적인 파인튜닝을 진행했지만, 짧은 학습만으로 정확한 지식 답변을 안정적으로 만들기는 어렵다는 점을 확인했습니다.
 
 #### 핵심 정리
-- Pillow는 Python 이미지 처리에 사용하는 라이브러리임
-- Pillow를 import할 때는 `from PIL import Image` 형태를 사용함
-- MongoDB는 데이터를 컬렉션 단위로 저장하고 관리할 수 있음
-- `trips`, `expenses`, `photos` 컬렉션으로 출장, 지출, 사진 메타데이터를 관리함
-- RAG&LLM 구조에서는 DB 검색 결과를 Context로 구성해 LLM 답변에 활용함
-- Gemini는 질문 의도 분석과 최종 답변 생성에 사용됨
-- API 기반 실습에서는 API 키와 `.env` 설정이 중요함
-- `STT -> RAG&LLM -> TTS`는 음성 기반 AI 비서 구조로 확장할 수 있는 흐름임
+- 강화학습은 보상의 합을 최대화하는 방향으로 행동을 개선하는 학습 방식임
+- MDP는 강화학습 문제를 표현하기 위한 수학적 틀임
+- Q-table은 각 상태에서 각 행동의 가치를 저장하는 표임
+- `argmax`는 어떤 행동을 선택할지, `max`는 그 행동의 가치가 얼마인지 구할 때 사용함
+- Epsilon-Greedy는 탐험과 활용의 균형을 맞추기 위한 방법임
+- CartPole에서는 `done`과 `truncated`를 함께 처리해야 원래 규칙을 유지할 수 있음
+- Pendulum처럼 연속 action 환경에는 PPO, DDPG, TD3, SAC 같은 알고리즘이 더 적합함
+- Reward 설계는 강화학습 문제 정의의 핵심임
+- SFT는 모범답변을 따라 배우는 단계이고, Preference/DPO는 더 좋은 답변을 선호하도록 조정하는 단계임
+- LoRA는 전체 모델이 아니라 작은 어댑터만 학습해 효율적으로 파인튜닝하는 방법임
 
 #### Troubleshooting
-- Gemini API 키 오류로 최종 답변 생성까지 정상 확인하지 못했음
-  - API 키 값, 만료 여부, `.env` 입력 위치, 환경변수 로딩 방식을 확인해야 함
-- RAG 구조에서 어떤 데이터를 검색하고 어떤 내용을 Context로 넣어야 좋은 답변이 나오는지 더 연습이 필요했음
-  - MongoDB 검색 결과와 최종 답변 사이의 연결 구조를 다시 확인할 예정
+- 강화학습 코드에서 `state`, `action`, `reward`, `next_state`, `done`, `truncated` 흐름을 놓치기 쉬웠음
+  - 실습 코드를 상태 전이와 업데이트 위치 중심으로 다시 읽을 필요가 있음
+- Policy Gradient와 REINFORCE는 episode 수집 후 학습하는 흐름이 Q-Learning보다 직관적이지 않았음
+  - episode 수집 단계와 학습 단계를 나누어 정리할 예정
+- DPO 실습에서 `DPOConfig` import, 데이터셋 변수, tensor dtype 관련 오류가 발생했음
+  - 라이브러리 버전과 데이터 포맷을 다시 맞춰볼 필요가 있음
 
 #### My Understanding
-- MongoDB = 개인 일정, 출장, 지출, 사진 기록 같은 데이터를 저장하는 내부 지식 저장소
-- RAG&LLM = 내부 데이터를 검색해 Context로 넣고 LLM이 답변하도록 만드는 구조
-- Gemini = 질문 의도 분석과 답변 생성에 활용되는 LLM
-- Context = DB 검색 결과를 LLM이 이해할 수 있게 정리한 입력 정보
-- STT/TTS를 연결하면 텍스트 기반 RAG를 음성 기반 로컬 AI 비서로 확장할 수 있음
-- AI 서비스는 LLM API 호출뿐 아니라 데이터 저장소, 검색 로직, Context 구성, 답변 생성 흐름을 함께 설계해야 함
+- 강화학습 = 좋은 행동의 기준을 reward로 정의하고 반복적으로 개선하는 시스템
+- Q-Learning = Q값을 업데이트하며 좋은 행동 정책을 찾는 방식
+- Policy Gradient = 행동 확률을 직접 학습하는 방식
+- 환경과 알고리즘의 궁합 = 상태/행동 공간이 이산인지 연속인지 먼저 확인해야 함
+- LLM의 action = 다음 토큰 선택
+- LLM의 reward = 답변 품질, 안전성, 선호도
+- SFT = 답변 형식과 패턴을 따라 배우는 단계
+- DPO = chosen 답변이 rejected 답변보다 선호되도록 조정하는 단계
+- AI 모델 개발은 코드를 작성하는 일뿐 아니라 문제와 평가 기준을 설계하는 일임
 
 ---
 

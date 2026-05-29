@@ -145,6 +145,7 @@ AI Human 교육 과정을 기반으로, 직접 작성한 코드와 복습 내용
 | Day41 | RAG / LangChain / Agent / Tool / 로컬 LLM과 Gemini 실습 |
 | Day42 | Pillow / MongoDB / RAG&LLM / Gemini API / STT-TTS 구조 |
 | Day43 | 강화학습 / Q-Learning / Policy Gradient / SFT / LoRA / DPO |
+| Day44 | DQN / Replay Buffer / Fixed Target / Actor-Critic / ASR RL / CarRacing |
 
 ---
 
@@ -194,6 +195,7 @@ Python-to-AI/
 ├── day41_rag_langchain/
 ├── day42_mongodb_rag_assistant/
 ├── day43_reinforcement_learning_llm/
+├── day44_deep_reinforcement_learning/
 ├── visual_notes/
 │   ├── index.html
 │   ├── python_basics_summary.html
@@ -210,62 +212,59 @@ Python-to-AI/
 
 ## 🔥 Recent Update
 
-### Day43: 강화학습과 LLM 학습 흐름
+### Day44: DQN과 강화학습 실습
 
-오늘은 강화학습의 기본 개념부터 Q-Learning, Policy Gradient, LLM 학습에서의 SFT와 Preference/DPO 흐름까지 학습했습니다.  
-강화학습은 에이전트가 환경 안에서 행동을 선택하고, 그 결과로 받은 보상을 기준으로 더 나은 행동을 찾아가는 학습 방식입니다.
+오늘은 Q-Learning의 한계를 신경망으로 확장한 DQN 구조와, 강화학습 실습에서 학습 안정성을 높이는 방법을 학습했습니다.  
+기존 Q-Learning은 상태와 행동의 조합마다 Q값을 저장하는 Q-Table 방식이지만, 현실 문제에서는 상태와 행동의 경우의 수가 너무 많아 모든 값을 저장하거나 계산하기 어렵습니다.
 
-강화학습의 주요 구성요소는 Agent, Environment, State, Action, Reward입니다.  
-MDP는 강화학습 문제를 수학적으로 표현하는 틀이며, 가능한 상태 집합 `S`, 행동 집합 `A`, 전이 함수 `P`, 보상 함수 `R`, 감가율 `γ`로 구성됩니다.  
-Q함수는 현재 상태에서 특정 행동을 했을 때 기대되는 누적 보상의 값을 나타냅니다.
+DQN은 Q함수를 인공신경망으로 근사하여 현재 상태를 입력받고 각 행동에 대한 Q값을 출력합니다.  
+즉, Q-Table에서 값을 직접 수정하던 방식이 신경망의 파라미터를 학습하는 방식으로 확장된 것입니다.  
+실습에서는 `CartPole-v1` 환경을 사용해 상태를 입력받아 왼쪽/오른쪽 행동의 Q값을 출력하는 신경망을 구성했습니다.
 
-Q-Learning 실습에서는 Q-table을 사용해 각 상태에서 각 행동이 얼마나 좋은지 저장하고 업데이트했습니다.  
-`np.argmax(Q[state, :])`는 선택할 행동의 위치를 구할 때 사용하고, `np.max(Q[next_state, :])`는 다음 상태에서 얻을 수 있는 가장 큰 Q값 자체를 구할 때 사용합니다.  
-Epsilon-Greedy는 일정 확률로 탐험하고 나머지 확률로 현재 가장 좋은 행동을 선택해 탐험과 활용의 균형을 맞추는 방법입니다.
+DQN은 신경망을 사용하기 때문에 학습이 불안정해질 수 있습니다.  
+연속된 관측값 사이에는 시간적 상관관계가 존재하므로 Replay Buffer를 사용해 경험을 저장한 뒤 랜덤한 미니배치로 샘플링합니다.  
+또한 예측 Q값과 목표 Q값을 같은 신경망으로 계산하면 목표값이 계속 변하기 때문에, 예측용 신경망과 목표값 계산용 Target 신경망을 분리하는 Fixed Target 구조를 사용합니다.
 
-Taxi-v3와 FrozenLake에서는 이산 상태/행동 환경에서 Q-Learning을 실습했습니다.  
-CartPole에서는 REINFORCE 알고리즘을 사용해 정책 모델이 각 행동을 선택할 확률을 출력하고, Categorical 분포에서 행동을 샘플링하는 흐름을 확인했습니다.  
-Gymnasium에서는 종료 조건이 `done`과 `truncated`로 나뉘며, 정식 규칙을 따르려면 `done = done or truncated`처럼 처리해야 한다는 점을 확인했습니다.
+DQN 실습에서는 상태, 행동, 보상, 다음 상태, 종료 여부를 Replay Memory에 저장했습니다.  
+메모리가 충분히 쌓인 뒤에는 저장된 경험 중 일부를 랜덤하게 뽑아 현재 Q값과 목표 Q값의 차이를 계산했습니다.  
+현재 Q값은 모델이 출력한 여러 행동의 Q값 중 실제 선택했던 행동의 Q값을 `gather`로 가져와 계산했고, 목표 Q값은 `현재 보상 + 감가율 × 다음 상태의 최대 Q값` 형태로 계산했습니다.
 
-Pendulum-v1은 연속 action 환경이므로 단순한 Categorical 기반 Policy Gradient로는 적합하지 않았다.  
-이를 통해 강화학습에서는 상태 공간과 행동 공간의 특성에 맞는 알고리즘을 선택해야 한다는 점을 배웠습니다.  
-또한 RC카 예시를 통해 최단거리만 reward로 삼으면 실제 성능과 어긋날 수 있으며, reward 설계가 문제 정의의 핵심이라는 점을 이해했습니다.
+이후 DQN의 한계와 Policy Gradient, Actor-Critic 구조도 정리했습니다.  
+DQN은 각 행동의 가치를 계산하는 방식이기 때문에 행동 공간이 연속적인 환경에서는 사용하기 어렵습니다.  
+Policy Gradient는 Q값 대신 행동을 선택하는 정책 자체를 학습하고, Actor-Critic은 정책을 담당하는 Actor와 행동의 가치를 평가하는 Critic을 분리해 학습 안정성을 높입니다.
 
-오후에는 강화학습 개념이 LLM 학습으로 연결되었습니다.  
-LLM 학습 흐름은 사전학습, SFT/모방학습, Preference/RLHF/DPO로 정리할 수 있습니다.  
-SFT는 질문과 모범답변을 보고 답변 형식을 따라 배우는 단계이고, Preference 데이터는 `chosen`과 `rejected`를 비교해 어떤 답변이 더 좋은지 학습하는 데 사용됩니다.  
-KoAlpaca LoRA SFT 실습에서는 전체 파라미터 중 약 0.2184%만 학습 가능한 상태로 효율적인 파인튜닝을 진행했지만, 짧은 학습만으로 정확한 지식 답변을 안정적으로 만들기는 어렵다는 점을 확인했습니다.
+ASR 강화학습 실습에서는 Whisper 모델을 사용해 한국어 음성 인식 결과를 확인했습니다.  
+WER을 reward로 사용하여 음성 인식 결과가 정답에 가까워지도록 학습했고, WER은 56.07%에서 47.10%로, CER은 23.59%에서 18.77%로 감소했습니다.  
+CarRacing 실습에서는 에이전트가 제대로 주행하지 못하고 핸들만 돌리는 문제를 통해, 알고리즘뿐 아니라 보상 설계가 학습 방향을 크게 바꾼다는 점을 확인했습니다.
 
 #### 핵심 정리
-- 강화학습은 보상의 합을 최대화하는 방향으로 행동을 개선하는 학습 방식임
-- MDP는 강화학습 문제를 표현하기 위한 수학적 틀임
-- Q-table은 각 상태에서 각 행동의 가치를 저장하는 표임
-- `argmax`는 어떤 행동을 선택할지, `max`는 그 행동의 가치가 얼마인지 구할 때 사용함
-- Epsilon-Greedy는 탐험과 활용의 균형을 맞추기 위한 방법임
-- CartPole에서는 `done`과 `truncated`를 함께 처리해야 원래 규칙을 유지할 수 있음
-- Pendulum처럼 연속 action 환경에는 PPO, DDPG, TD3, SAC 같은 알고리즘이 더 적합함
-- Reward 설계는 강화학습 문제 정의의 핵심임
-- SFT는 모범답변을 따라 배우는 단계이고, Preference/DPO는 더 좋은 답변을 선호하도록 조정하는 단계임
-- LoRA는 전체 모델이 아니라 작은 어댑터만 학습해 효율적으로 파인튜닝하는 방법임
+- Q-Table은 상태와 행동 조합별 Q값을 저장하는 표임
+- DQN은 Q함수를 신경망으로 근사하는 강화학습 알고리즘임
+- DQN의 입력은 현재 상태이고, 출력은 각 행동에 대한 Q값임
+- Replay Buffer는 경험을 저장한 뒤 랜덤 미니배치로 뽑아 시간적 상관관계를 줄임
+- Fixed Target은 목표 Q값 계산용 네트워크를 따로 두어 학습 안정성을 높임
+- `gather`는 실제 선택한 행동의 Q값만 가져올 때 사용함
+- Policy Gradient는 행동 선택 확률을 직접 학습함
+- Actor-Critic은 Actor와 Critic을 분리해 정책 학습과 가치 평가를 함께 수행함
+- ASR 강화학습에서는 WER/CER 감소로 성능 개선을 확인할 수 있음
+- CarRacing 실습은 reward wrapper와 보상 설계의 중요성을 보여줌
 
 #### Troubleshooting
-- 강화학습 코드에서 `state`, `action`, `reward`, `next_state`, `done`, `truncated` 흐름을 놓치기 쉬웠음
-  - 실습 코드를 상태 전이와 업데이트 위치 중심으로 다시 읽을 필요가 있음
-- Policy Gradient와 REINFORCE는 episode 수집 후 학습하는 흐름이 Q-Learning보다 직관적이지 않았음
-  - episode 수집 단계와 학습 단계를 나누어 정리할 예정
-- DPO 실습에서 `DPOConfig` import, 데이터셋 변수, tensor dtype 관련 오류가 발생했음
-  - 라이브러리 버전과 데이터 포맷을 다시 맞춰볼 필요가 있음
+- DQN에서 현재 Q값과 목표 Q값을 계산하는 흐름이 처음에는 헷갈렸음
+  - `state -> q_values -> action -> reward -> q_target -> loss` 흐름으로 다시 정리
+- Replay Buffer와 Fixed Target이 코드에서 어떻게 분리되고 업데이트되는지 더 익숙해질 필요가 있었음
+  - 메모리 저장, 미니배치 샘플링, target network 업데이트 위치를 주석으로 복습할 예정
+- CarRacing 실습에서 에이전트가 핸들만 돌리는 문제가 발생했음
+  - 가속 보상, 브레이크 패널티, 과도한 조향 패널티처럼 reward wrapper 설계가 필요했음
 
 #### My Understanding
-- 강화학습 = 좋은 행동의 기준을 reward로 정의하고 반복적으로 개선하는 시스템
-- Q-Learning = Q값을 업데이트하며 좋은 행동 정책을 찾는 방식
-- Policy Gradient = 행동 확률을 직접 학습하는 방식
-- 환경과 알고리즘의 궁합 = 상태/행동 공간이 이산인지 연속인지 먼저 확인해야 함
-- LLM의 action = 다음 토큰 선택
-- LLM의 reward = 답변 품질, 안전성, 선호도
-- SFT = 답변 형식과 패턴을 따라 배우는 단계
-- DPO = chosen 답변이 rejected 답변보다 선호되도록 조정하는 단계
-- AI 모델 개발은 코드를 작성하는 일뿐 아니라 문제와 평가 기준을 설계하는 일임
+- DQN = Q-Learning의 Q-table을 신경망으로 바꾼 방식
+- Replay Buffer = 경험을 섞어서 학습을 안정화하는 장치
+- Fixed Target = 계속 움직이는 목표값 문제를 줄이는 장치
+- Policy Gradient = 좋은 결과를 낸 행동의 선택 확률을 높이는 방식
+- Actor-Critic = 행동 선택과 행동 평가를 나누어 학습하는 방식
+- ASR 강화학습 = WER/CER 같은 지표를 reward로 활용해 인식 결과를 개선하는 접근
+- Reward 설계 = 모델이 어떤 행동을 좋은 행동으로 학습할지 결정하는 핵심 설계
 
 ---
 
